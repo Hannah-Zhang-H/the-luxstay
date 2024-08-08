@@ -1,4 +1,10 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { AiOutlineHome } from "react-icons/ai";
+import { GrCalendar } from "react-icons/gr";
+import { LuBedSingle } from "react-icons/lu";
+import { LuUsers2 } from "react-icons/lu";
+import { AiOutlineSetting } from "react-icons/ai";
 
 const NavList = styled.ul`
   display: flex;
@@ -6,7 +12,7 @@ const NavList = styled.ul`
   gap: 0.8rem;
 `;
 
-const Link = styled.a`
+const StyledNavLink = styled(NavLink)`
   &:link,
   &:visited {
     display: flex;
@@ -44,3 +50,46 @@ const Link = styled.a`
     color: var(--color-brand-600);
   }
 `;
+
+function MainNav() {
+  return (
+    <nav>
+      <NavList>
+        <li>
+          <StyledNavLink to="/dashboard">
+            <AiOutlineHome />
+            <span>Home</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/bookings">
+            <GrCalendar />
+            <span>Bookings</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/room">
+            <LuBedSingle />
+
+            <span>Room</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/users">
+            <LuUsers2 />
+            <span>Users</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/settings">
+            <AiOutlineSetting />
+
+            <span>Settings</span>
+          </StyledNavLink>
+        </li>
+      </NavList>
+    </nav>
+  );
+}
+
+export default MainNav;
