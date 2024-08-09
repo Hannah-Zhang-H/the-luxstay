@@ -2,7 +2,8 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { AiOutlineHome } from "react-icons/ai";
 import { GrCalendar } from "react-icons/gr";
-import { LuBedSingle } from "react-icons/lu";
+import { MdOutlineHolidayVillage } from "react-icons/md";
+
 import { LuUsers2 } from "react-icons/lu";
 import { AiOutlineSetting } from "react-icons/ai";
 
@@ -68,10 +69,10 @@ function MainNav() {
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/room">
-            <LuBedSingle />
+          <StyledNavLink to="/villas">
+            <MdOutlineHolidayVillage />
 
-            <span>Room</span>
+            <span>Villas</span>
           </StyledNavLink>
         </li>
         <li>
