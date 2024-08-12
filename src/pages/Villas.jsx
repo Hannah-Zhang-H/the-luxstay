@@ -1,21 +1,26 @@
-import { useEffect } from "react";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
-import { getVillas } from "../services/apiVillas";
+import VillaTable from "../features/villas/VillaTable";
+import { useState } from "react";
+import CreateVillaForm from "../features/villas/CreateVillaForm";
+import Button from "../ui/Button";
 
 function Villas() {
-  useEffect(() => {
-    getVillas().then((data) => console.log(data));
-  }, []);
+  const [showForm, setShowFrom] = useState(false);
   return (
-    <Row type="horizontal">
-      <Heading as="h1">All Villas</Heading>
-      <p>TEST</p>
-      <img
-        src="https://dgutpaazmciinuuwqtwt.supabase.co/storage/v1/object/public/villa-images/villa-001.jpeg"
-        alt=""
-      />
-    </Row>
+    <>
+      <Row type="horizontal">
+        <Heading as="h1">All Villas</Heading>
+        <p>Filter/Sort</p>
+      </Row>
+      <Row>
+        <VillaTable />
+        <Button onClick={() => setShowFrom((show) => !show)}>
+          Add new villa
+        </Button>
+        {showForm && <CreateVillaForm />}
+      </Row>
+    </>
   );
 }
 
