@@ -1,6 +1,3 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
@@ -8,7 +5,8 @@ import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import CreateVillaFormRow from "../../ui/CreateVillaFormRow";
 import { useForm } from "react-hook-form";
-import { createOrEditVilla } from "../../services/apiVillas";
+import { useCreateVilla } from "./useCreateVilla";
+import { useEditVilla } from "./useEditVilla";
 
 function CreateVillaForm({ villaToEdit = {} }) {
   const { id: editId, ...editValues } = villaToEdit;
@@ -20,30 +18,10 @@ function CreateVillaForm({ villaToEdit = {} }) {
     defaultValues: isEditSession ? editValues : {},
   });
   const { errors } = formState;
-
-  // Create a new villa
-  const queryClient = useQueryClient();
-
   //======================================== Creat a new villa ==============================
-  const { mutate: createVilla, isLoading: isCreating } = useMutation({
-    mutationFn: createOrEditVilla,
-    onSuccess: () => {
-      toast.success("New villa successfully created");
-      queryClient.invalidateQueries({ queryKey: ["villas"] });
-    },
-    onError: (err) => toast.error(err.message),
-  });
-
+  const { isCreating, createVilla } = useCreateVilla();
   //======================================== Edit a villa ==============================
-  const { mutate: editVilla, isLoading: isEditing } = useMutation({
-    mutationFn: ({ newVillaData, id }) => createOrEditVilla(newVillaData, id),
-    onSuccess: () => {
-      toast.success("Villa successfully updated");
-      queryClient.invalidateQueries({ queryKey: ["villas"] });
-    },
-    onError: (err) => toast.error(err.message),
-  });
-
+  const { isEditing, editVilla } = useEditVilla();
   const isWorking = isCreating || isEditing;
 
   function onSubmit(data) {
@@ -52,10 +30,23 @@ function CreateVillaForm({ villaToEdit = {} }) {
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
     // Edit the villa
-    if (isEditSession)
-      editVilla({ newVillaData: { ...data, image }, id: editId });
+    if (isEditSession) {
+      editVilla(
+        { newVillaData: { ...data, image }, id: editId },
+        {
+          onSuccess: () => reset(),
+        }
+      );
+    }
     // Create a new villa
-    else createVilla({ ...data, image: image });
+    else {
+      createVilla(
+        { ...data, image: image },
+        {
+          onSuccess: () => reset(),
+        }
+      );
+    }
   }
 
   // If failed validate
@@ -121,9 +112,12 @@ function CreateVillaForm({ villaToEdit = {} }) {
             required: "This field is required.",
             validate: (discountValue) => {
               const normalPrice = getValues().normalPrice;
-              !normalPrice ||
-                discountValue <= normalPrice ||
-                "Discount should be less than normal price.";
+              if (normalPrice)
+                return (
+                  discountValue < normalPrice ||
+                  "Discount should be less than normal price."
+                );
+              return true;
             },
           })}
         />

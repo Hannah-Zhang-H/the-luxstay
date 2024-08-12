@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteVilla } from "../../services/apiVillas";
-import toast from "react-hot-toast";
 import { useState } from "react";
 import CreateVillaForm from "./CreateVillaForm";
+import { useDeleteVilla } from "./UseDeleteVilla";
+import { MdEdit } from "react-icons/md";
+import { MdOutlineDeleteForever } from "react-icons/md";
+import { HiDocumentDuplicate } from "react-icons/hi2";
+import { useCreateVilla } from "./useCreateVilla";
 
 const TableRow = styled.div`
   display: grid;
@@ -46,7 +48,6 @@ const Discount = styled.div`
 `;
 
 function VillaRow({ villa }) {
-  const [showForm, setShowForm] = useState(false);
   const {
     id: villaId,
     name,
@@ -54,21 +55,22 @@ function VillaRow({ villa }) {
     normalPrice,
     discount,
     image,
+    description,
   } = villa;
+  const [showForm, setShowForm] = useState(false);
+  const { isDeleting, deleteVilla } = useDeleteVilla();
+  const { isCreating, createVilla } = useCreateVilla();
 
-  const queryClient = useQueryClient();
-
-  const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: deleteVilla,
-    onSuccess: () => {
-      toast.success("Villa successfully deleted.");
-      queryClient.invalidateQueries({
-        queryKey: ["villas"],
-      });
-    },
-
-    onError: (err) => toast.error(err.message),
-  });
+  function handleDuplicate() {
+    createVilla({
+      name: `Copy of ${name}`,
+      maxCapacity,
+      normalPrice,
+      discount,
+      image,
+      description,
+    });
+  }
 
   return (
     <>
@@ -77,11 +79,21 @@ function VillaRow({ villa }) {
         <Cabin>{name}</Cabin>
         <div>Fits up to {maxCapacity} guests</div>
         <Price>{formatCurrency(normalPrice)}</Price>
-        <Discount>{formatCurrency(discount)}</Discount>
+        {discount ? (
+          <Discount>{formatCurrency(discount)}</Discount>
+        ) : (
+          <span>&mdash;</span>
+        )}
+
         <div>
-          <button onClick={() => setShowForm((show) => !show)}>Edit</button>
-          <button onClick={() => mutate(villaId)} disabled={isDeleting}>
-            Delete
+          <button onClick={handleDuplicate} disabled={isCreating}>
+            <HiDocumentDuplicate />
+          </button>
+          <button onClick={() => setShowForm((show) => !show)}>
+            <MdEdit />
+          </button>
+          <button onClick={() => deleteVilla(villaId)} disabled={isDeleting}>
+            <MdOutlineDeleteForever />
           </button>
         </div>
       </TableRow>

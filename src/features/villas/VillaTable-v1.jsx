@@ -1,7 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
+import { getVillas } from "../../services/apiVillas";
 import Spinner from "../../ui/Spinner";
 import VillaRow from "./VillaRow";
-import { useVillas } from "./useVillas";
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -28,7 +29,16 @@ const TableHeader = styled.header`
 `;
 
 function VillaTable() {
-  const { isLoading, villas, error } = useVillas();
+  // data: villas ===> just rename the data to villas
+  const {
+    isLoading,
+    data: villas,
+    error,
+  } = useQuery({
+    queryKey: ["villas"],
+    queryFn: getVillas,
+  });
+
   // If the loading state is isLoading, then the spinner get displayed
   if (isLoading) return <Spinner />;
 
