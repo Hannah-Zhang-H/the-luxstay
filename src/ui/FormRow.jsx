@@ -33,7 +33,7 @@ const Error = styled.span`
 const Label = styled.label`
   font-weight: 500;
 `;
-function CreateVillaFormRow({ label, error, children }) {
+function FormRow({ label, error, children }) {
   return (
     <StyledFormRow>
       {label && <Label htmlFor={children.props.id}>{label}</Label>}
@@ -43,4 +43,4 @@ function CreateVillaFormRow({ label, error, children }) {
   );
 }
 
-export default CreateVillaFormRow;
+export default FormRow;

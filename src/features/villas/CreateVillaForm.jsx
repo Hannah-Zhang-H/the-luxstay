@@ -3,7 +3,7 @@ import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
-import CreateVillaFormRow from "../../ui/CreateVillaFormRow";
+import FormRow from "../../ui/FormRow";
 import { useForm } from "react-hook-form";
 import { useCreateVilla } from "./useCreateVilla";
 import { useEditVilla } from "./useEditVilla";
@@ -58,7 +58,7 @@ function CreateVillaForm({ villaToEdit = {} }) {
     // If form validation fails, then call the onError function
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
       {/* ---------------------------------------- name ----------------------------------------*/}
-      <CreateVillaFormRow label="Villa name" error={errors?.name?.message}>
+      <FormRow label="Villa name" error={errors?.name?.message}>
         <Input
           type="text"
           id="name"
@@ -67,13 +67,10 @@ function CreateVillaForm({ villaToEdit = {} }) {
             required: "This field is required.",
           })}
         />
-      </CreateVillaFormRow>
+      </FormRow>
       {/* ---------------------------------------- maxCapacity ----------------------------------------*/}
 
-      <CreateVillaFormRow
-        label="maxCapacity"
-        error={errors?.maxCapacity?.message}
-      >
+      <FormRow label="maxCapacity" error={errors?.maxCapacity?.message}>
         <Input
           type="number"
           id="maxCapacity"
@@ -83,13 +80,10 @@ function CreateVillaForm({ villaToEdit = {} }) {
             min: { value: 1, message: "Capacity should be at least 1." },
           })}
         />
-      </CreateVillaFormRow>
+      </FormRow>
       {/* ---------------------------------------- normalPrice ----------------------------------------*/}
 
-      <CreateVillaFormRow
-        label="normalPrice"
-        error={errors?.normalPrice?.message}
-      >
+      <FormRow label="normalPrice" error={errors?.normalPrice?.message}>
         <Input
           type="number"
           id="normalPrice"
@@ -99,10 +93,10 @@ function CreateVillaForm({ villaToEdit = {} }) {
             min: { value: 1, message: "NormalPrice should be at least 1." },
           })}
         />
-      </CreateVillaFormRow>
+      </FormRow>
       {/* ---------------------------------------- discount ----------------------------------------*/}
 
-      <CreateVillaFormRow label="discount" error={errors?.discount?.message}>
+      <FormRow label="discount" error={errors?.discount?.message}>
         <Input
           type="number"
           id="discount"
@@ -121,13 +115,10 @@ function CreateVillaForm({ villaToEdit = {} }) {
             },
           })}
         />
-      </CreateVillaFormRow>
+      </FormRow>
       {/* ---------------------------------------- description ----------------------------------------*/}
 
-      <CreateVillaFormRow
-        label="description"
-        error={errors?.description?.message}
-      >
+      <FormRow label="description" error={errors?.description?.message}>
         <Textarea
           type="number"
           id="description"
@@ -135,10 +126,10 @@ function CreateVillaForm({ villaToEdit = {} }) {
           defaultValue=""
           {...register("description", { required: "This field is required." })}
         />
-      </CreateVillaFormRow>
+      </FormRow>
       {/* ---------------------------------------- image ----------------------------------------*/}
 
-      <CreateVillaFormRow label="villa photo" error={errors?.image?.message}>
+      <FormRow label="villa photo" error={errors?.image?.message}>
         <FileInput
           id="image"
           accept="image/*"
@@ -146,10 +137,10 @@ function CreateVillaForm({ villaToEdit = {} }) {
             required: isEditSession ? false : "This field is required",
           })}
         />
-      </CreateVillaFormRow>
+      </FormRow>
       {/* ---------------------------------------- buttons ----------------------------------------*/}
 
-      <CreateVillaFormRow>
+      <FormRow>
         {/* type is an HTML attribute! */}
         <Button variation="secondary" type="reset">
           Reset
@@ -157,7 +148,7 @@ function CreateVillaForm({ villaToEdit = {} }) {
         <Button disabled={isWorking}>
           {isEditSession ? "Edit Villa" : "Add villa"}
         </Button>
-      </CreateVillaFormRow>
+      </FormRow>
     </Form>
   );
 }
