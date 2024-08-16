@@ -1,23 +1,19 @@
-import { useState } from "react";
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
 import CreateVillaForm from "./CreateVillaForm";
 
 function AddVilla() {
-  const [isOpenModal, setIsOpenModal] = useState(false);
-
   return (
     <div>
-      <Button onClick={() => setIsOpenModal((show) => !show)}>
-        Add new villa
-      </Button>
-      {isOpenModal && (
-        <Modal onClose={() => setIsOpenModal(false)}>
+      <Modal>
+        <Modal.Open opens="villa-form">
+          <Button>Add new villa</Button>
+        </Modal.Open>
+        <Modal.Window name="villa-form">
           <CreateVillaForm />
-        </Modal>
-      )}
+        </Modal.Window>
+      </Modal>
     </div>
   );
 }
-
 export default AddVilla;

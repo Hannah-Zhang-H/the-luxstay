@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { useCreateVilla } from "./useCreateVilla";
 import { useEditVilla } from "./useEditVilla";
 
-function CreateVillaForm({ villaToEdit = {} }) {
+function CreateVillaForm({ villaToEdit = {}, onCloseModal = {} }) {
   const { id: editId, ...editValues } = villaToEdit;
   const isEditSession = Boolean(editId);
 
@@ -34,7 +34,10 @@ function CreateVillaForm({ villaToEdit = {} }) {
       editVilla(
         { newVillaData: { ...data, image }, id: editId },
         {
-          onSuccess: () => reset(),
+          onSuccess: () => {
+            reset();
+            onCloseModal;
+          },
         }
       );
     }
@@ -43,7 +46,10 @@ function CreateVillaForm({ villaToEdit = {} }) {
       createVilla(
         { ...data, image: image },
         {
-          onSuccess: () => reset(),
+          onSuccess: () => {
+            reset();
+            onCloseModal;
+          },
         }
       );
     }
@@ -56,7 +62,10 @@ function CreateVillaForm({ villaToEdit = {} }) {
 
   return (
     // If form validation fails, then call the onError function
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onCloseModal ? "modal" : "regular"}
+    >
       {/* ---------------------------------------- name ----------------------------------------*/}
       <FormRow label="Villa name" error={errors?.name?.message}>
         <Input
@@ -142,8 +151,8 @@ function CreateVillaForm({ villaToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
-          Reset
+        <Button variation="secondary" type="reset" onClick={onCloseModal}>
+          {isEditSession ? "Reset" : "Cancel"}
         </Button>
         <Button disabled={isWorking}>
           {isEditSession ? "Edit Villa" : "Add villa"}

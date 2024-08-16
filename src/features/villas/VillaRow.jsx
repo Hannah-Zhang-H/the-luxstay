@@ -1,24 +1,27 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { useState } from "react";
 import CreateVillaForm from "./CreateVillaForm";
 import { useDeleteVilla } from "./UseDeleteVilla";
 import { MdEdit } from "react-icons/md";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { HiDocumentDuplicate } from "react-icons/hi2";
 import { useCreateVilla } from "./useCreateVilla";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import Modal from "../../ui/Modal";
+import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 
-const TableRow = styled.div`
-  display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-  column-gap: 2.4rem;
-  align-items: center;
-  padding: 1.4rem 2.4rem;
+// const TableRow = styled.div`
+//   display: grid;
+//   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
+//   column-gap: 2.4rem;
+//   align-items: center;
+//   padding: 1.4rem 2.4rem;
 
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-`;
+//   &:not(:last-child) {
+//     border-bottom: 1px solid var(--color-grey-100);
+//   }
+// `;
 
 const Img = styled.img`
   display: block;
@@ -57,7 +60,6 @@ function VillaRow({ villa }) {
     image,
     description,
   } = villa;
-  const [showForm, setShowForm] = useState(false);
   const { isDeleting, deleteVilla } = useDeleteVilla();
   const { isCreating, createVilla } = useCreateVilla();
 
@@ -73,32 +75,48 @@ function VillaRow({ villa }) {
   }
 
   return (
-    <>
-      <TableRow role="row">
-        <Img src={image} />
-        <Cabin>{name}</Cabin>
-        <div>Fits up to {maxCapacity} guests</div>
-        <Price>{formatCurrency(normalPrice)}</Price>
-        {discount ? (
-          <Discount>{formatCurrency(discount)}</Discount>
-        ) : (
-          <span>&mdash;</span>
-        )}
+    <Table.Row>
+      <Img src={image} />
+      <Cabin>{name}</Cabin>
+      <div>Fits up to {maxCapacity} guests</div>
+      <Price>{formatCurrency(normalPrice)}</Price>
+      {discount ? (
+        <Discount>{formatCurrency(discount)}</Discount>
+      ) : (
+        <span>&mdash;</span>
+      )}
 
-        <div>
-          <button onClick={handleDuplicate} disabled={isCreating}>
-            <HiDocumentDuplicate />
-          </button>
-          <button onClick={() => setShowForm((show) => !show)}>
-            <MdEdit />
-          </button>
-          <button onClick={() => deleteVilla(villaId)} disabled={isDeleting}>
-            <MdOutlineDeleteForever />
-          </button>
-        </div>
-      </TableRow>
-      {showForm && <CreateVillaForm villaToEdit={villa} />}
-    </>
+      <div>
+        <button onClick={handleDuplicate} disabled={isCreating}>
+          <HiDocumentDuplicate />
+        </button>
+
+        <Modal>
+          <Modal.Open opens="edit">
+            <button>
+              <MdEdit />
+            </button>
+          </Modal.Open>
+          <Modal.Window name="edit">
+            <CreateVillaForm villaToEdit={villa} />
+          </Modal.Window>
+
+          <Modal.Open opens="delete">
+            <button>
+              <MdOutlineDeleteForever />
+            </button>
+          </Modal.Open>
+
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="villa"
+              disabled={isDeleting}
+              onConfirm={() => deleteVilla(villaId)}
+            />
+          </Modal.Window>
+        </Modal>
+      </div>
+    </Table.Row>
   );
 }
 
