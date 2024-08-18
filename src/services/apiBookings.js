@@ -1,6 +1,19 @@
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
+// ================================== getBooking(id) ================================
+export async function getBookings() {
+  const { data, error } = await supabase.from("bookings").select("*");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings not found");
+  }
+
+  return data;
+}
+
+// ================================== getBooking(id) ================================
 export async function getBooking(id) {
   const { data, error } = await supabase
     .from("bookings")
@@ -16,6 +29,7 @@ export async function getBooking(id) {
   return data;
 }
 
+// ================================== getBookingsAfterDate(date) ================================
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
 export async function getBookingsAfterDate(date) {
   const { data, error } = await supabase
@@ -32,6 +46,7 @@ export async function getBookingsAfterDate(date) {
   return data;
 }
 
+// ================================== getStaysAfterDate(date) ================================
 // Returns all STAYS that are were created after the given date
 export async function getStaysAfterDate(date) {
   const { data, error } = await supabase
@@ -49,6 +64,7 @@ export async function getStaysAfterDate(date) {
   return data;
 }
 
+// ================================== getStaysTodayActivity() ================================
 // Activity means that there is a check in or a check out today
 export async function getStaysTodayActivity() {
   const { data, error } = await supabase
@@ -69,6 +85,7 @@ export async function getStaysTodayActivity() {
   }
   return data;
 }
+// ================================== updateBooking(id, obj) ================================
 
 export async function updateBooking(id, obj) {
   const { data, error } = await supabase
@@ -84,6 +101,7 @@ export async function updateBooking(id, obj) {
   }
   return data;
 }
+// ================================== deleteBooking(id)================================
 
 export async function deleteBooking(id) {
   // REMEMBER RLS POLICIES

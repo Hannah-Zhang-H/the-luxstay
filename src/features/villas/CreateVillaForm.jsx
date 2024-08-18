@@ -152,7 +152,8 @@ function CreateVillaForm({ villaToEdit = {}, onCloseModal = {} }) {
       <FormRow>
         {/* type is an HTML attribute! */}
         <Button variation="secondary" type="reset" onClick={onCloseModal}>
-          {isEditSession ? "Reset" : "Cancel"}
+          {/* {isEditSession ? "Reset" : "Cancel"} */}
+          Cancel
         </Button>
         <Button disabled={isWorking}>
           {isEditSession ? "Edit Villa" : "Add villa"}
