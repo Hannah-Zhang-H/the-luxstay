@@ -5,7 +5,7 @@ import Button from "../ui/Button";
 import { subtractDates } from "../utils/helpers";
 
 import { bookings } from "./data-bookings";
-import { cabins } from "./data-cabins";
+import { villas } from "./data-villas";
 import { guests } from "./data-guests";
 
 // const originalSettings = {
@@ -20,8 +20,8 @@ async function deleteGuests() {
   if (error) console.log(error.message);
 }
 
-async function deleteCabins() {
-  const { error } = await supabase.from("cabins").delete().gt("id", 0);
+async function deleteVillas() {
+  const { error } = await supabase.from("villas").delete().gt("id", 0);
   if (error) console.log(error.message);
 }
 
@@ -35,33 +35,33 @@ async function createGuests() {
   if (error) console.log(error.message);
 }
 
-async function createCabins() {
-  const { error } = await supabase.from("cabins").insert(cabins);
+async function createVillas() {
+  const { error } = await supabase.from("villas").insert(villas);
   if (error) console.log(error.message);
 }
 
 async function createBookings() {
-  // Bookings need a guestId and a cabinId. We can't tell Supabase IDs for each object, it will calculate them on its own. So it might be different for different people, especially after multiple uploads. Therefore, we need to first get all guestIds and cabinIds, and then replace the original IDs in the booking data with the actual ones from the DB
+  // Bookings need a guestId and a villaId. We can't tell Supabase IDs for each object, it will calculate them on its own. So it might be different for different people, especially after multiple uploads. Therefore, we need to first get all guestIds and villaIds, and then replace the original IDs in the booking data with the actual ones from the DB
   const { data: guestsIds } = await supabase
     .from("guests")
     .select("id")
     .order("id");
-  const allGuestIds = guestsIds.map((cabin) => cabin.id);
-  const { data: cabinsIds } = await supabase
-    .from("cabins")
+  const allGuestIds = guestsIds.map((villa) => villa.id);
+  const { data: villasIds } = await supabase
+    .from("villas")
     .select("id")
     .order("id");
-  const allCabinIds = cabinsIds.map((cabin) => cabin.id);
+  const allVillaIds = villasIds.map((villa) => villa.id);
 
   const finalBookings = bookings.map((booking) => {
-    // Here relying on the order of cabins, as they don't have and ID yet
-    const cabin = cabins.at(booking.cabinId - 1);
+    // Here relying on the order of villas, as they don't have and ID yet
+    const villa = villas.at(booking.villaId - 1);
     const numNights = subtractDates(booking.endDate, booking.startDate);
-    const cabinPrice = numNights * (cabin.regularPrice - cabin.discount);
-    const extrasPrice = booking.hasBreakfast
+    const villaFee = numNights * (villa.normalPrice - villa.discount);
+    const extraFee = booking.hasBreakfast
       ? numNights * 15 * booking.numGuests
       : 0; // hardcoded breakfast price
-    const totalPrice = cabinPrice + extrasPrice;
+    const totalFee = villaFee + extraFee;
 
     let status;
     if (
@@ -85,11 +85,11 @@ async function createBookings() {
     return {
       ...booking,
       numNights,
-      cabinPrice,
-      extrasPrice,
-      totalPrice,
+      villaFee,
+      extraFee,
+      totalFee,
       guestId: allGuestIds.at(booking.guestId - 1),
-      cabinId: allCabinIds.at(booking.cabinId - 1),
+      villaId: allVillaIds.at(booking.villaId - 1),
       status,
     };
   });
@@ -108,11 +108,11 @@ function Uploader() {
     // Bookings need to be deleted FIRST
     await deleteBookings();
     await deleteGuests();
-    await deleteCabins();
+    await deleteVillas();
 
     // Bookings need to be created LAST
     await createGuests();
-    await createCabins();
+    await createVillas();
     await createBookings();
 
     setIsLoading(false);

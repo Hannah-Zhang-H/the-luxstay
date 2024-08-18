@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getVillas as getVillasApi } from "../../services/apiVillas";
 
-export function useVillas(params) {
+export function useVillas() {
   // data: villas ===> just rename the data to villas
   const {
     isLoading,
