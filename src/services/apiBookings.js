@@ -1,29 +1,47 @@
+import { PAGE_SIZE } from "../utils/constants";
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
 // ================================== getBooking(id) ================================
-export async function getBookings({ filter, sortBy }) {
+export async function getBookings({ filter, sortBy, page }) {
+  //  { count: "exact" } calculate the query length
   let query = supabase
     .from("bookings")
     .select(
-      "id, created_at, startDate, endDate, numNights, numGuests, status, totalFee, villas(name), guests(fullName,email)"
+      "id, created_at, startDate, endDate, numNights, numGuests, status, totalFee, villas(name), guests(fullName,email)",
+      { count: "exact" }
     );
 
   // --------------------------------- Filter ----------------------------
   if (filter) query = query.eq(filter.field, filter.value);
-
   // --------------------------------- Sort ------------------------------
   if (sortBy)
     query = query.order(sortBy.field, { ascending: sortBy.asc_desc === "asc" });
+  // --------------------------------- Pagination ------------------------------
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
 
-  const { data, error } = await query;
+    // make sure the pagination is valid
+    const { count } = await supabase
+      .from("bookings")
+      .select("id", { count: "exact", head: true });
+
+    if (from >= count) {
+      throw new Error("Page out of bounds");
+    }
+
+    query = query.range(from, Math.min(to, count - 1)); // make sure  "to" is inside the boundary
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
     console.error(error);
     throw new Error("Bookings not found");
   }
 
-  return data;
+  return { data, count };
 }
 
 // ================================== getBooking(id) ================================
