@@ -6,6 +6,14 @@ import Table from "../../ui/Table";
 
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
+import Modal from "../../ui/Modal";
+import { MdEdit } from "react-icons/md";
+import { MdOutlineDeleteForever } from "react-icons/md";
+import { IoIosLink } from "react-icons/io";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { deleteBooking } from "../../services/apiBookings";
+import { useNavigate } from "react-router-dom";
+import { TbReportSearch } from "react-icons/tb";
 
 const Villa = styled.div`
   font-size: 1.6rem;
@@ -48,6 +56,8 @@ function BookingRow({
     villas: { name: villaName },
   },
 }) {
+  const navigate = useNavigate();
+
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
@@ -57,12 +67,10 @@ function BookingRow({
   return (
     <Table.Row>
       <Villa>{villaName}</Villa>
-
       <Stacked>
         <span>{guestName}</span>
         <span>{email}</span>
       </Stacked>
-
       <Stacked>
         <span>
           {isToday(new Date(startDate))
@@ -75,10 +83,9 @@ function BookingRow({
           {format(new Date(endDate), "MMM dd yyyy")}
         </span>
       </Stacked>
-
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
-
       <Amount>{formatCurrency(totalFee)}</Amount>
+      <TbReportSearch onClick={() => navigate(`/bookings/${bookingId}`)} />
     </Table.Row>
   );
 }
