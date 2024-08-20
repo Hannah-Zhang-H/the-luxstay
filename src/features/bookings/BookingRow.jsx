@@ -14,6 +14,7 @@ import ConfirmDelete from "../../ui/ConfirmDelete";
 import { deleteBooking } from "../../services/apiBookings";
 import { useNavigate } from "react-router-dom";
 import { TbReportSearch } from "react-icons/tb";
+import { HiArrowDownOnSquare, HiArrowUpOnSquare } from "react-icons/hi2";
 
 const Villa = styled.div`
   font-size: 1.6rem;
@@ -85,7 +86,14 @@ function BookingRow({
       </Stacked>
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
       <Amount>{formatCurrency(totalFee)}</Amount>
-      <TbReportSearch onClick={() => navigate(`/bookings/${bookingId}`)} />
+      <div>
+        <TbReportSearch onClick={() => navigate(`/bookings/${bookingId}`)} />
+        {status === "unconfirmed" && (
+          <HiArrowDownOnSquare
+            onClick={() => navigate(`/checkin/${bookingId}`)}
+          />
+        )}
+      </div>
     </Table.Row>
   );
 }
