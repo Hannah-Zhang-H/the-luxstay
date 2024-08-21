@@ -5,6 +5,7 @@ import Input from "../../ui/Input";
 import FormRow from "../../ui/FormRow";
 import { useLogin } from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
+import toast from "react-hot-toast";
 
 function LoginForm() {
   const [email, setEmail] = useState("hz@example.com");
@@ -13,8 +14,17 @@ function LoginForm() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!email || !password) return;
-    login({ email, password });
+    if (!email || !password)
+      return toast.error("Please enter all required fields");
+    login(
+      { email, password },
+      {
+        onSuccess: () => {
+          setEmail("");
+          setPassword("");
+        },
+      }
+    );
   }
 
   return (
