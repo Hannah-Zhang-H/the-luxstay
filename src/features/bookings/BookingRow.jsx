@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { TbReportSearch } from "react-icons/tb";
 import { HiArrowDownOnSquare, HiArrowUpOnSquare } from "react-icons/hi2";
 import { useCheckout } from "../check-in-out/useCheckout";
+import { MdDeleteForever } from "react-icons/md";
+import { useDeleteBooking } from "./useDeleteBooking";
 
 const Villa = styled.div`
   font-size: 1.6rem;
@@ -60,6 +62,7 @@ function BookingRow({
 }) {
   const navigate = useNavigate();
   const { checkOut, isCheckingOut } = useCheckout();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
 
   const statusToTagName = {
     unconfirmed: "blue",
@@ -88,25 +91,37 @@ function BookingRow({
       </Stacked>
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
       <Amount>{formatCurrency(totalFee)}</Amount>
-      <div>
-        {/* -------------------------- booking Details---------------------------- */}
-        <TbReportSearch onClick={() => navigate(`/bookings/${bookingId}`)} />
+      <Modal>
+        <div>
+          {/* -------------------------- booking Details---------------------------- */}
+          <TbReportSearch onClick={() => navigate(`/bookings/${bookingId}`)} />
 
-        {/* -------------------------- Check In---------------------------- */}
-        {status === "unconfirmed" && (
-          <HiArrowDownOnSquare
-            onClick={() => navigate(`/checkin/${bookingId}`)}
-          />
-        )}
+          {/* -------------------------- Check In---------------------------- */}
+          {status === "unconfirmed" && (
+            <HiArrowDownOnSquare
+              onClick={() => navigate(`/checkin/${bookingId}`)}
+            />
+          )}
 
-        {/* -------------------------- Check Out---------------------------- */}
-        {status === "checked-in" && (
-          <HiArrowUpOnSquare
-            onClick={() => checkOut(bookingId)}
-            disabled={isCheckingOut}
-          />
-        )}
-      </div>
+          {/* -------------------------- Check Out---------------------------- */}
+          {status === "checked-in" && (
+            <HiArrowUpOnSquare
+              onClick={() => checkOut(bookingId)}
+              disabled={isCheckingOut}
+            />
+          )}
+          {/* -------------------------- Delete Booking---------------------------- */}
+          <Modal.Open opens="delete">
+            <MdDeleteForever />
+          </Modal.Open>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="booking"
+              onConfirm={() => deleteBooking(bookingId)}
+            />
+          </Modal.Window>
+        </div>
+      </Modal>
     </Table.Row>
   );
 }
