@@ -15,6 +15,7 @@ import { deleteBooking } from "../../services/apiBookings";
 import { useNavigate } from "react-router-dom";
 import { TbReportSearch } from "react-icons/tb";
 import { HiArrowDownOnSquare, HiArrowUpOnSquare } from "react-icons/hi2";
+import { useCheckout } from "../check-in-out/useCheckout";
 
 const Villa = styled.div`
   font-size: 1.6rem;
@@ -58,6 +59,7 @@ function BookingRow({
   },
 }) {
   const navigate = useNavigate();
+  const { checkOut, isCheckingOut } = useCheckout();
 
   const statusToTagName = {
     unconfirmed: "blue",
@@ -87,10 +89,21 @@ function BookingRow({
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
       <Amount>{formatCurrency(totalFee)}</Amount>
       <div>
+        {/* -------------------------- booking Details---------------------------- */}
         <TbReportSearch onClick={() => navigate(`/bookings/${bookingId}`)} />
+
+        {/* -------------------------- Check In---------------------------- */}
         {status === "unconfirmed" && (
           <HiArrowDownOnSquare
             onClick={() => navigate(`/checkin/${bookingId}`)}
+          />
+        )}
+
+        {/* -------------------------- Check Out---------------------------- */}
+        {status === "checked-in" && (
+          <HiArrowUpOnSquare
+            onClick={() => checkOut(bookingId)}
+            disabled={isCheckingOut}
           />
         )}
       </div>
