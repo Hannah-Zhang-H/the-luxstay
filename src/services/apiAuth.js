@@ -1,6 +1,24 @@
 import supabase from "./supabase";
 
-// ============================== login ==============================
+// ====================================================== signup(data) ==========================================
+export async function signup({ fullName, email, password }) {
+  // The other data need to be written in optoins obj
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        fullName,
+        avator: "",
+      },
+    },
+  });
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+// ============================================================ login ==========================================
 export async function login({ email, password }) {
   let { data, error } = await supabase.auth.signInWithPassword({
     email,
@@ -11,7 +29,7 @@ export async function login({ email, password }) {
   return data;
 }
 
-// ============================== getCurrentUser ==============================
+// ====================================================== getCurrentUser ==========================================
 export async function getCurrentUser() {
   const { data: session } = await supabase.auth.getSession();
 
@@ -26,7 +44,7 @@ export async function getCurrentUser() {
   return data?.user;
 }
 
-// ============================== logout ==============================
+// ====================================================== logout ==========================================
 export async function logout() {
   const { error } = await supabase.auth.signOut();
   if (error) throw new Error(error.message);
