@@ -13,15 +13,10 @@ export function useRecentBookings() {
 
   // queryDate is the  date = currentDate - 7/30/90 days
   const queryDate = subDays(new Date(), numDays).toISOString();
-
-  const { isLoading, data: stays } = useQuery({
+  const { isLoading, data: bookings } = useQuery({
     queryFn: () => getBookingsAfterDateApi(queryDate),
-    queryKey: ["stays", "last-${numDays}"],
+    queryKey: ["bookings", `last-${numDays}`],
   });
 
-  const confirmedStays = stays?.filter(
-    (stay) => stay.status === "checked-in" || stay.status === "checked-out"
-  );
-
-  return { isLoading, stays, confirmedStays };
+  return { isLoading, bookings };
 }
