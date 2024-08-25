@@ -46,7 +46,7 @@ function VillaTable() {
           <div>Capacity</div>
           <div>Price</div>
           <div>Discount</div>
-          <div></div>
+          <div>Action</div>
         </Table.Header>
         <Table.Body
           data={sortedVillas}
