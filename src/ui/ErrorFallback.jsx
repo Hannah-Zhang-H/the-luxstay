@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Heading from "./Heading";
 import GlobalStyles from "../styles/GlobalStyles";
 import Button from "./Button";
+import PropTypes from "prop-types";
 
 const StyledErrorFallback = styled.main`
   height: 100vh;
@@ -49,5 +50,12 @@ function ErrorFallback({ error, resetErrorBoundary }) {
     </>
   );
 }
+
+ErrorFallback.propTypes = {
+  error: PropTypes.shape({
+    message: PropTypes.string.isRequired,
+  }).isRequired,
+  resetErrorBoundary: PropTypes.func.isRequired,
+};
 
 export default ErrorFallback;
