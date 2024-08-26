@@ -12,14 +12,14 @@ import Table from "../../ui/Table";
 
 const Img = styled.img`
   display: block;
-  width: 6.4rem;
+  width: 12rem;
   aspect-ratio: 3 / 2;
   object-fit: cover;
   object-position: center;
   transform: scale(1.5) translateX(-7px);
 `;
 
-const Cabin = styled.div`
+const Villa = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--color-grey-600);
@@ -64,7 +64,7 @@ function VillaRow({ villa }) {
   return (
     <Table.Row>
       <Img src={image} />
-      <Cabin>{name}</Cabin>
+      <Villa>{name}</Villa>
       <div>Fits up to {maxCapacity} guests</div>
       <Price>{formatCurrency(normalPrice)}</Price>
       {discount ? (
@@ -74,29 +74,26 @@ function VillaRow({ villa }) {
       )}
 
       <div>
-        <button
+        <HiDocumentDuplicate
           onClick={handleDuplicate}
           disabled={isCreating}
           style={{ marginRight: "5px" }}
           title="Duplicate villa"
-        >
-          <HiDocumentDuplicate style={{ marginRight: "5px" }} />
-        </button>
+        />
 
         <Modal>
           <Modal.Open opens="edit">
-            <button style={{ marginRight: "5px" }} title="Edit villa">
-              <MdEdit />
-            </button>
+            <MdEdit style={{ marginRight: "5px" }} title="Edit villa" />
           </Modal.Open>
           <Modal.Window name="edit">
             <CreateVillaForm villaToEdit={villa} />
           </Modal.Window>
 
           <Modal.Open opens="delete">
-            <button style={{ marginRight: "5px" }} title="Delete villa">
-              <MdOutlineDeleteForever />
-            </button>
+            <MdOutlineDeleteForever
+              style={{ marginRight: "5px" }}
+              title="Delete villa"
+            />
           </Modal.Open>
 
           <Modal.Window name="delete">
