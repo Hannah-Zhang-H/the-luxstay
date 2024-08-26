@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
 import CreateVillaForm from "./CreateVillaForm";
-import { useDeleteVilla } from "./UseDeleteVilla";
+import { useDeleteVilla } from "./useDeleteVilla";
 import { MdEdit } from "react-icons/md";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { HiDocumentDuplicate } from "react-icons/hi2";
