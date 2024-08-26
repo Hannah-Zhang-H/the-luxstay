@@ -1,17 +1,11 @@
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
-
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
-
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
 import Modal from "../../ui/Modal";
-import { MdEdit } from "react-icons/md";
-import { MdOutlineDeleteForever } from "react-icons/md";
-import { IoIosLink } from "react-icons/io";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-import { deleteBooking } from "../../services/apiBookings";
 import { useNavigate } from "react-router-dom";
 import { TbReportSearch } from "react-icons/tb";
 import { HiArrowDownOnSquare, HiArrowUpOnSquare } from "react-icons/hi2";
@@ -94,30 +88,39 @@ function BookingRow({
       <Modal>
         <div>
           {/* -------------------------- booking Details---------------------------- */}
-          <TbReportSearch onClick={() => navigate(`/bookings/${bookingId}`)} />
+
+          <TbReportSearch
+            onClick={() => navigate(`/bookings/${bookingId}`)}
+            title="Booking details"
+            style={{ marginRight: "5px" }}
+          />
 
           {/* -------------------------- Check In---------------------------- */}
           {status === "unconfirmed" && (
             <HiArrowDownOnSquare
               onClick={() => navigate(`/checkin/${bookingId}`)}
+              title="Check in"
+              style={{ marginRight: "5px" }}
             />
           )}
-
           {/* -------------------------- Check Out---------------------------- */}
           {status === "checked-in" && (
             <HiArrowUpOnSquare
               onClick={() => checkOut(bookingId)}
               disabled={isCheckingOut}
+              title="Check out"
+              style={{ marginRight: "5px" }}
             />
           )}
           {/* -------------------------- Delete Booking---------------------------- */}
           <Modal.Open opens="delete">
-            <MdDeleteForever />
+            <MdDeleteForever title="Booking details" />
           </Modal.Open>
           <Modal.Window name="delete">
             <ConfirmDelete
               resourceName="booking"
               onConfirm={() => deleteBooking(bookingId)}
+              style={{ marginRight: "5px" }}
             />
           </Modal.Window>
         </div>

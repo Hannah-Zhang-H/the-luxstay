@@ -84,15 +84,20 @@ const GlobalStyles = createGlobalStyle`
 
 
 
-   /* Indigo */
-  --color-brand-50: #eef2ff;
-  --color-brand-100: #e0e7ff;
-  --color-brand-200: #c7d2fe;
-  --color-brand-500: #6366f1;
-  --color-brand-600: #4f46e5;
-  --color-brand-700: #4338ca;
-  --color-brand-800: #3730a3;
-  --color-brand-900: #312e81;
+/* Green */
+--color-brand-50:  #f0fdf4;
+--color-brand-100: #dcfce7;
+--color-brand-200: #bbf7d0;
+--color-brand-500: #22c55e;
+--color-brand-600: #16a34a;
+--color-brand-700: #15803d;
+--color-brand-800: #166534;
+--color-brand-900: #14532d;
+
+
+
+
+
 
   --border-radius-tiny: 3px;
   --border-radius-sm: 5px;
