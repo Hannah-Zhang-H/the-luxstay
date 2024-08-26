@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
 import CreateVillaForm from "./CreateVillaForm";
-import { useDeleteVilla } from "./useDeleteVilla";
 import { MdEdit } from "react-icons/md";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { HiDocumentDuplicate } from "react-icons/hi2";
 import { useCreateVilla } from "./useCreateVilla";
+import { useDeleteVilla } from "../villas/useDeleteVilla";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Modal from "../../ui/Modal";
 import Table from "../../ui/Table";
