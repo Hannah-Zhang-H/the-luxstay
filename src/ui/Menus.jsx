@@ -1,4 +1,4 @@
-// 没必要，就是加了三个点，弹出三个框。不好看， 这个文件可以删了。
+// I was considering not using this file, otherwise too compicated
 import { createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiEllipsisVertical } from "react-icons/hi2";
@@ -9,7 +9,7 @@ const Menu = styled.div`
   align-items: center;
   justify-content: flex-end;
 `;
-// 没必要，就是加了三个点，弹出三个框。不好看， 这个文件可以删了。
+// I was considering not using this file, otherwise too compicated
 const StyledToggle = styled.button`
   background: none;
   border: none;
@@ -17,7 +17,7 @@ const StyledToggle = styled.button`
   border-radius: var(--border-radius-sm);
   transform: translateX(0.8rem);
   transition: all 0.2s;
-  // 没必要，就是加了三个点，弹出三个框。不好看， 这个文件可以删了。
+  // I was considering not using this file, otherwise too compicated
   &:hover {
     background-color: var(--color-grey-100);
   }
@@ -52,7 +52,7 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
   gap: 1.6rem;
-  // 没必要，就是加了三个点，弹出三个框。不好看， 这个文件可以删了。// 没必要，就是加了三个点，弹出三个框。不好看， 这个文件可以删了。
+  // I was considering not using this file, otherwise too compicated
   &:hover {
     background-color: var(--color-grey-50);
   }
@@ -66,7 +66,7 @@ const StyledButton = styled.button`
 `;
 
 const MenusContext = createContext();
-// 没必要，就是加了三个点，弹出三个框。不好看， 这个文件可以删了。// 没必要，就是加了三个点，弹出三个框。不好看， 这个文件可以删了。// 没必要，就是加了三个点，弹出三个框。不好看， 这个文件可以删了。
+// I was considering not using this file, otherwise too compicated
 // ========================================= Menus ========================================
 function Menus({ children }) {
   const [openId, setOpenId] = useState("");
