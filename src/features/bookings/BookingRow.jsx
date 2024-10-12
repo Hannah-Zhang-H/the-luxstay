@@ -114,7 +114,7 @@ function BookingRow({
           )}
           {/* -------------------------- Delete Booking---------------------------- */}
           <Modal.Open opens="delete">
-            <MdDeleteForever title="Booking details" />
+            <MdDeleteForever title="Delete booking" />
           </Modal.Open>
           <Modal.Window name="delete">
             <ConfirmDelete
