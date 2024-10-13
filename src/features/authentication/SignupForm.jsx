@@ -22,6 +22,7 @@ function SignupForm() {
           type="text"
           id="fullName"
           disabled={isLoading}
+          style={{ color: "black" }}
           {...register("fullName", { required: "This field is required." })}
         />
       </FormRow>
@@ -31,6 +32,7 @@ function SignupForm() {
           type="email"
           id="email"
           disabled={isLoading}
+          style={{ color: "black" }}
           {...register("email", {
             required: "This field is required.",
             pattern: {
@@ -49,6 +51,7 @@ function SignupForm() {
           type="password"
           id="password"
           disabled={isLoading}
+          style={{ color: "black" }}
           {...register("password", {
             required: "This field is required.",
             minLength: {
@@ -64,6 +67,7 @@ function SignupForm() {
           type="password"
           id="passwordConfirm"
           disabled={isLoading}
+          style={{ color: "black" }}
           {...register("passwordConfirm", {
             required: "This field is required.",
             validate: (value) =>

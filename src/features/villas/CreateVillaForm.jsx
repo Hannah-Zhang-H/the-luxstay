@@ -72,6 +72,7 @@ function CreateVillaForm({ villaToEdit = {}, onCloseModal = {} }) {
           type="text"
           id="name"
           disabled={isWorking}
+          style={{ color: "black" }}
           {...register("name", {
             required: "This field is required.",
           })}
@@ -84,6 +85,7 @@ function CreateVillaForm({ villaToEdit = {}, onCloseModal = {} }) {
           type="number"
           id="maxCapacity"
           disabled={isWorking}
+          style={{ color: "black" }}
           {...register("maxCapacity", {
             required: "This field is required.",
             min: { value: 1, message: "Capacity should be at least 1." },
@@ -97,6 +99,7 @@ function CreateVillaForm({ villaToEdit = {}, onCloseModal = {} }) {
           type="number"
           id="normalPrice"
           disabled={isWorking}
+          style={{ color: "black" }}
           {...register("normalPrice", {
             required: "This field is required.",
             min: { value: 1, message: "NormalPrice should be at least 1." },
@@ -111,6 +114,7 @@ function CreateVillaForm({ villaToEdit = {}, onCloseModal = {} }) {
           id="discount"
           defaultValue={0}
           disabled={isCreating}
+          style={{ color: "black" }}
           {...register("discount", {
             required: "This field is required.",
             validate: (discountValue) => {
