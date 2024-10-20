@@ -39,7 +39,7 @@ const StyledList = styled.ul`
   right: ${(props) => props.position.x}px;
   top: ${(props) => props.position.y}px;
 `;
-// 没必要，就是加了三个点，弹出三个框。不好看， 这个文件可以删了。// 没必要，就是加了三个点，弹出三个框。不好看， 这个文件可以删了。
+
 const StyledButton = styled.button`
   width: 100%;
   text-align: left;
