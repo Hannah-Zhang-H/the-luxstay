@@ -1,4 +1,3 @@
-// I was considering not using this file, otherwise too compicated
 import { createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiEllipsisVertical } from "react-icons/hi2";
@@ -9,7 +8,7 @@ const Menu = styled.div`
   align-items: center;
   justify-content: flex-end;
 `;
-// I was considering not using this file, otherwise too compicated
+
 const StyledToggle = styled.button`
   background: none;
   border: none;
@@ -17,7 +16,7 @@ const StyledToggle = styled.button`
   border-radius: var(--border-radius-sm);
   transform: translateX(0.8rem);
   transition: all 0.2s;
-  // I was considering not using this file, otherwise too compicated
+
   &:hover {
     background-color: var(--color-grey-100);
   }
@@ -31,14 +30,13 @@ const StyledToggle = styled.button`
 
 const StyledList = styled.ul`
   position: fixed;
-
   background-color: var(--color-grey-0);
   box-shadow: var(--shadow-md);
   border-radius: var(--border-radius-md);
-
   right: ${(props) => props.position.x}px;
   top: ${(props) => props.position.y}px;
 `;
+
 const StyledButton = styled.button`
   width: 100%;
   text-align: left;
@@ -51,7 +49,7 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
   gap: 1.6rem;
-  // I was considering not using this file, otherwise too compicated
+
   &:hover {
     background-color: var(--color-grey-50);
   }
@@ -65,6 +63,7 @@ const StyledButton = styled.button`
 `;
 
 const MenusContext = createContext();
+
 // ========================================= Menus ========================================
 function Menus({ children }) {
   const [openId, setOpenId] = useState("");
@@ -88,7 +87,7 @@ function Toggle({ id }) {
     useContext(MenusContext);
 
   function handleClick(e) {
-    // to get the bounding rectangle of the button element closest to the target element (e.target) clicked by the user
+    // Get the bounding rectangle of the button element clicked by the user
     const rect = e.target.closest("button").getBoundingClientRect();
 
     setPosition({
