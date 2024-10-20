@@ -1,3 +1,5 @@
+// Part of the code is based on the tutorial from Jonas Schmedtmann
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";

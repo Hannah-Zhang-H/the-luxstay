@@ -1,3 +1,4 @@
+// Import necessary libraries and components
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import GlobalStyles from "./styles/GlobalStyles";
 import Dashboard from "./pages/Dashboard";
@@ -17,9 +18,11 @@ import Checkin from "./pages/Checkin";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import { DarkModeProvider } from "./context/DarkModeContext";
 
+// Create a new QueryClient for react-query with default options
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      // Set staleTime to 0, meaning cached data is always refetched on mount
       staleTime: 0,
     },
   },
@@ -27,21 +30,31 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
+    // Provide dark mode context to the entire application
     <DarkModeProvider>
+      {/* Wrap the app with the QueryClientProvider to use react-query */}
       <QueryClientProvider client={queryClient}>
+        {/* Enable devtools for react-query debugging */}
         <ReactQueryDevtools initialIsOpen={false} />
+
+        {/* Apply global styles */}
         <GlobalStyles />
+
+        {/* Set up the routing for the app */}
         <BrowserRouter>
           <Routes>
             <Route
-              // All Route will under AppLayout, and also under ProtectedRoute(for authentication)
+              // ProtectedRoute wraps AppLayout to enforce authentication for all nested routes
               element={
                 <ProtectedRoute>
                   <AppLayout />
                 </ProtectedRoute>
               }
             >
+              {/* Redirect root to the dashboard */}
               <Route index element={<Navigate replace to="dashboard" />} />
+
+              {/* Define main routes under AppLayout */}
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="bookings" element={<Bookings />} />
               <Route path="bookings/:bookingId" element={<Booking />} />
@@ -52,30 +65,30 @@ function App() {
               <Route path="account" element={<Account />} />
             </Route>
 
-            {/* login and pagenotfound page will not use the layout */}
+            {/* Login and 404 pages are outside of the protected routes and layout */}
             <Route path="login" element={<Login />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
-        {/* Put Toaster here to isolate from other */}
+
+        {/* Set up the toast notifications with custom styling */}
         <Toaster
           position="top-center"
-          // gutter: the gap between each toaster
-          gutter={12}
-          containerStyle={{ margin: "8px" }}
+          gutter={12} // Space between multiple toasts
+          containerStyle={{ margin: "8px" }} // Customize margin for the container
           toastOptions={{
             success: {
-              duration: 3000,
+              duration: 3200, // Duration for success messages
             },
             error: {
-              duration: 5000,
+              duration: 5100, // Duration for error messages
             },
             style: {
               fontSize: "16px",
-              maxWidth: "500px",
-              padding: "16px 24px",
-              backgroundColor: "var(--color-grey-0)",
-              color: "var(--color-grey-700)",
+              maxWidth: "500px", // Set maximum width for toasts
+              padding: "16px 24px", // Add padding inside the toasts
+              backgroundColor: "var(--color-grey-0)", // Use CSS variable for background color
+              color: "var(--color-grey-700)", // Use CSS variable for text color
             },
           }}
         />
